@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Онлайн-тестирование</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f6f9; color: #333; max-width: 650px; margin: 40px auto; padding: 20px; }
+    .card { background: #fff; padding: 25px 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    h1, h2 { margin-top: 0; font-size: 22px; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
+    input[type="text"], input[type="email"] { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; box-sizing: border-box; }
+    .checkbox-group { display: flex; align-items: center; gap: 10px; margin: 20px 0; padding: 12px; background: #f8f9fa; border-radius: 6px; }
+    .checkbox-group input { width: 18px; height: 18px; cursor: pointer; }
+    .checkbox-group label { margin: 0; font-weight: normal; cursor: pointer; }
+    .btn { background: #0066cc; color: #fff; border: none; padding: 12px 20px; font-size: 16px; border-radius: 6px; cursor: pointer; width: 100%; font-weight: 600; }
+    .btn:hover { background: #0052a3; }
+    .btn:disabled { background: #99c2eb; cursor: not-allowed; }
+    .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+    .progress { font-size: 14px; color: #666; font-weight: 500; }
+    .timer { font-size: 15px; font-weight: 700; color: #0066cc; background: #e6f0fa; padding: 4px 10px; border-radius: 6px; }
+    .timer.warning { color: #dc3545; background: #f8d7da; }
+    .option { display: block; padding: 12px 15px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; cursor: pointer; transition: 0.2s; }
+    .option:hover { background: #f0f4f8; }
+    .option.selected { border-color: #0066cc; background: #e6f0fa; font-weight: 500; }
+    .option.correct { border-color: #28a745; background: #d4edda; color: #155724; }
+    .option.wrong { border-color: #dc3545; background: #f8d7da; color: #721c24; }
+    .hidden { display: none; }
+    .status-msg { margin-top: 15px; font-size: 14px; color: #555; text-align: center; }
+    .notice-box { background: #fff3cd; color: #856404; padding: 10px 14px; border-radius: 6px; font-size: 13px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div id="start-screen">
+    <h1>Регистрация на тест</h1>
+    <form id="user-form">
+      <div class="form-group">
+        <label for="fio">ФИО *</label>
+        <input type="text" id="fio" required placeholder="Иванов Иван Иванович">
+      </div>
+      <div class="form-group">
+        <label for="city">Город *</label>
+        <input type="text" id="city" required placeholder="Москва">
+      </div>
+      <div class="form-group">
+        <label for="email">Email (необязательно — для отправки результата)</label>
+        <input type="email" id="email" placeholder="example@mail.ru">
+      </div>
+      <div class="checkbox-group">
+        <input type="checkbox" id="instant-feedback">
+        <label for="instant-feedback">Показывать правильный ответ сразу после выбора</label>
+      </div>
+      <button type="submit" class="btn">Начать тест</button>
+    </form>
+  </div>
+
+  <div id="quiz-screen" class="hidden">
+    <div id="restore-notice" class="notice-box hidden">Сессия восстановлена. Продолжайте с текущего вопроса.</div>
+    <div class="quiz-header">
+      <div class="progress" id="progress-text">Вопрос 1 из 10</div>
+      <div class="timer" id="timer-display">00:45</div>
+    </div>
+    <h2 id="question-text">Текст вопроса</h2>
+    <div id="options-container"></div>
+    <button id="next-btn" class="btn" style="margin-top: 20px;" disabled>Далее</button>
+  </div>
+
+  <div id="result-screen" class="hidden">
+    <h1>Тест завершён!</h1>
+    <p id="score-text" style="font-size: 18px; font-weight: bold;"></p>
+    <p id="email-info"></p>
+    <div class="status-msg" id="save-status"></div>
+  </div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
